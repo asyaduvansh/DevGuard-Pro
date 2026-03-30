@@ -1,0 +1,7 @@
+services:
+  devguard:
+    build: .
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - LOG_DIR=/app/logs
