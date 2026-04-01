@@ -4,6 +4,7 @@ import logging
 import sys
 import os
 from datetime import datetime
+import subprocess
 
 # 1. Logging Setup
 LOG_DIR = os.environ.get("LOG_DIR", "/app/logs")
@@ -68,4 +69,22 @@ if error_found:
 
 print("✅ Check Complete!")
 logging.info("DevGuard Pro Finished")
-sys.exit(0)
+
+try:
+	print("✅ Check Complete!")
+	logging.info("DevGuard Pro Finished")
+
+
+	subprocess.run(["git", "add", "."], check=True)
+	message=(f"Auto push {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+	subprocess.run(["git", "commit", "-m", message], check=True)
+	subprocess.run(["git", "push"], check=True)
+
+	print(f"push finished: {message}")
+	logging.info(f"Git pushed {message}")
+	sys.exit(0)
+
+except subprocess.CalledProcessError as e:
+	print("Git push failed")
+	logging.error("Git push failed: {e}")
+	sys.exit(1)
