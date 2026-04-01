@@ -4,3 +4,5 @@ __pycache__/
 backup_files/
 .env
 *.logs
+.dockerignore
+backup_files/
